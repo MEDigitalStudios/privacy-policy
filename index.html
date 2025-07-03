@@ -1,1 +1,408 @@
 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Политика Конфиденциальности - ME</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 50%, #0a1a1a 100%);
+            min-height: 100vh;
+            font-family: 'Exo 2', sans-serif;
+            color: #00ffff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .particle {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: #ff00ff;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            50% { transform: translateY(-100px) rotate(180deg); opacity: 0.5; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 900;
+            color: #ff00ff;
+            text-shadow: 
+                0 0 20px #ff00ff,
+                0 0 40px #ff00ff,
+                0 0 60px #ff00ff;
+            animation: pulse 2s ease-in-out infinite alternate;
+            margin-bottom: 20px;
+        }
+
+        @keyframes pulse {
+            0% { text-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 60px #ff00ff; }
+            100% { text-shadow: 0 0 40px #ff00ff, 0 0 60px #ff00ff, 0 0 80px #ff00ff; }
+        }
+
+        .title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00ffff;
+            text-shadow: 
+                0 0 10px #00ffff,
+                0 0 20px #00ffff,
+                0 0 30px #00ffff;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ff6b6b;
+            text-shadow: 0 0 10px #ff6b6b;
+            opacity: 0.8;
+        }
+
+        .content {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 0 30px rgba(0, 255, 255, 0.3),
+                inset 0 0 30px rgba(0, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            animation: scan 3s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .section {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ff00ff;
+            text-shadow: 
+                0 0 10px #ff00ff,
+                0 0 20px #ff00ff;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+            box-shadow: 0 0 10px #ff00ff;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px #ff00ff; width: 50px; }
+            100% { box-shadow: 0 0 20px #ff00ff; width: 100px; }
+        }
+
+        .section-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #e0e0e0;
+            text-shadow: 0 0 5px rgba(224, 224, 224, 0.5);
+            margin-bottom: 15px;
+        }
+
+        .company-name {
+            color: #ff00ff;
+            font-weight: 600;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+
+        .highlight {
+            color: #00ffff;
+            font-weight: 600;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        .important {
+            color: #ff6b6b;
+            font-weight: 600;
+            text-shadow: 0 0 10px #ff6b6b;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        ul li {
+            position: relative;
+            margin-bottom: 10px;
+            padding-left: 25px;
+        }
+
+        ul li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .date-update {
+            background: rgba(255, 0, 255, 0.1);
+            border: 1px solid #ff00ff;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #ff00ff;
+            font-weight: 600;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+
+        .contact-info {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .warning {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid #ff6b6b;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">ME</div>
+            <h1 class="title">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</h1>
+            <p class="subtitle">Защита данных в цифровом мире</p>
+        </header>
+
+        <div class="content">
+            <div class="date-update">
+                <strong>Дата последнего обновления:</strong> 01.07.2025
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">1. Введение</h2>
+                <div class="section-content">
+                    Компания <span class="company-name">ME</span> разрабатывает удобные мобильные приложения с уникальным дизайном. Наши приложения охватывают широкий спектр функционала, от системных утилит до уникальных проектов. В будущем планируется интеграция и взаимосвязь между всеми приложениями компании <span class="company-name">ME</span>.
+                </div>
+                <div class="section-content">
+                    Мы уважаем вашу конфиденциальность и обязуемся защищать ваши личные данные. В этой Политике конфиденциальности объясняется, как мы обрабатываем информацию, когда вы используете наши приложения.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">2. Собираемая информация</h2>
+                <div class="section-content">
+                    Мы <span class="important">не собираем</span> личную информацию пользователей. Наши приложения работают полностью на устройстве пользователя и не требуют доступа к серверам. Мы не храним и не передаем данные третьим лицам.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">3. Использование данных</h2>
+                <div class="section-content">
+                    Если вы обращаетесь в службу поддержки, информация, которую вы отправляете нам, может быть использована для:
+                </div>
+                <ul>
+                    <li>Анализа проблем и уязвимостей в приложении</li>
+                    <li>Работы над исправлениями и улучшениями приложений</li>
+                </ul>
+                <div class="section-content">
+                    Никакие другие данные не используются для анализа или передаются третьим сторонам.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">4. Безопасность данных</h2>
+                <div class="section-content">
+                    Наши приложения не требуют доступа к интернету или серверам, и, следовательно, не сохраняют личные данные пользователей. Приложения локальные и не используют облачные сервисы, что делает передачу или утечку данных <span class="highlight">невозможной</span>.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">5. Ссылки на другие сайты</h2>
+                <div class="section-content">
+                    Наши приложения могут содержать ссылки на другие вебсайты или приложения, которые не находятся под контролем компании <span class="company-name">ME</span>. Мы не несем ответственности за содержание этих сайтов или их политику конфиденциальности.
+                </div>
+                <div class="warning">
+                    <strong>Внимание:</strong> При переходе по внешним ссылкам действует политика конфиденциальности соответствующих ресурсов.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">6. Изменения в политике конфиденциальности</h2>
+                <div class="section-content">
+                    Мы можем время от времени обновлять эту Политику конфиденциальности. Все изменения будут публиковаться на этой странице с указанием даты последнего обновления.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">7. Контакты</h2>
+                <div class="section-content">
+                    Если у вас есть вопросы или пожелания по поводу политики конфиденциальности, пожалуйста, свяжитесь с нами по адресу:
+                </div>
+                <div class="contact-info">
+                    <strong>medigital.studios.official@gmail.com</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createParticles() {
+            const colors = ['#ff00ff', '#00ffff', '#ff6b6b'];
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particle.style.boxShadow = `0 0 10px ${particle.style.backgroundColor}`;
+                document.body.appendChild(particle);
+            }
+        }
+        createParticles();
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            document.querySelector('.logo').style.transform = `translateY(${rate}px)`;
+        });
+        const title = document.querySelector('.title');
+        const originalText = title.textContent;
+        title.textContent = '';
+        let i = 0;
+        const typeWriter = setInterval(() => {
+            title.textContent += originalText.charAt(i);
+            i++;
+            if (i >= originalText.length) {
+                clearInterval(typeWriter);
+            }
+        }, 100);
+    </script>
+</body>
+</html>
