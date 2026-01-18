@@ -13,7 +13,7 @@
         }
 
         body {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 50%, #0a1a1a 100%);
+            background-color: #0a0a0a;
             min-height: 100vh;
             font-family: 'Exo 2', sans-serif;
             color: #00ffff;
@@ -21,41 +21,15 @@
             position: relative;
         }
 
-        body::before {
-            content: '';
+        /* Канвас для эффекта Liquid Glass */
+        #liquid-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: gridMove 20s linear infinite;
-            pointer-events: none;
             z-index: 1;
-        }
-
-        @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        .particle {
-            position: fixed;
-            width: 2px;
-            height: 2px;
-            background: #ff00ff;
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            50% { transform: translateY(-100px) rotate(180deg); opacity: 0.5; }
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 50%, #0a1a1a 100%);
         }
 
         .container {
@@ -70,6 +44,7 @@
             text-align: center;
             margin-bottom: 40px;
             position: relative;
+            pointer-events: none;
         }
 
         .logo {
@@ -77,17 +52,10 @@
             font-size: 4rem;
             font-weight: 900;
             color: #ff00ff;
-            text-shadow: 
-                0 0 20px #ff00ff,
-                0 0 40px #ff00ff,
-                0 0 60px #ff00ff;
-            animation: pulse 2s ease-in-out infinite alternate;
+            /* УБРАНО СВЕЧЕНИЕ И АНИМАЦИЯ */
+            text-shadow: none;
+            animation: none;
             margin-bottom: 20px;
-        }
-
-        @keyframes pulse {
-            0% { text-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 60px #ff00ff; }
-            100% { text-shadow: 0 0 40px #ff00ff, 0 0 60px #ff00ff, 0 0 80px #ff00ff; }
         }
 
         .title {
@@ -110,7 +78,8 @@
         }
 
         .content {
-            background: rgba(0, 0, 0, 0.7);
+            /* СДЕЛАНО ПРОЗРАЧНЕЕ (0.2 вместо 0.75) */
+            background: rgba(10, 10, 15, 0.2);
             border: 2px solid #00ffff;
             border-radius: 10px;
             padding: 30px;
@@ -118,9 +87,10 @@
             position: relative;
             overflow: hidden;
             box-shadow: 
-                0 0 30px rgba(0, 255, 255, 0.3),
-                inset 0 0 30px rgba(0, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+                0 0 30px rgba(0, 255, 255, 0.15),
+                inset 0 0 30px rgba(0, 255, 255, 0.05);
+            /* Усилен блюр для читаемости текста на прозрачном фоне */
+            backdrop-filter: blur(8px);
         }
 
         .content::before {
@@ -132,6 +102,7 @@
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
             animation: scan 3s linear infinite;
+            pointer-events: none;
         }
 
         @keyframes scan {
@@ -181,158 +152,43 @@
             margin-bottom: 15px;
         }
 
-        .company-name {
-            color: #ff00ff;
-            font-weight: 600;
-            text-shadow: 0 0 10px #ff00ff;
-        }
+        .company-name { color: #ff00ff; font-weight: 600; text-shadow: 0 0 10px #ff00ff; }
+        .highlight { color: #00ffff; font-weight: 600; text-shadow: 0 0 10px #00ffff; }
+        .important { color: #ff6b6b; font-weight: 600; text-shadow: 0 0 10px #ff6b6b; }
+        .bold { color: #00ffff; font-weight: 700; text-shadow: 0 0 10px #00ffff; }
 
-        .highlight {
-            color: #00ffff;
-            font-weight: 600;
-            text-shadow: 0 0 10px #00ffff;
-        }
+        .subsection { margin: 20px 0; padding-left: 20px; }
+        .subsection-title { font-size: 1.3rem; font-weight: 700; color: #00ffff; text-shadow: 0 0 10px #00ffff; margin-bottom: 10px; }
 
-        .important {
-            color: #ff6b6b;
-            font-weight: 600;
-            text-shadow: 0 0 10px #ff6b6b;
-        }
+        ol { list-style: none; counter-reset: section-counter; padding-left: 0; }
+        ol li { counter-increment: section-counter; position: relative; margin-bottom: 15px; padding-left: 35px; }
+        ol li::before { content: counter(section-counter) "."; position: absolute; left: 0; color: #ff00ff; font-weight: bold; text-shadow: 0 0 10px #ff00ff; font-size: 1.1rem; }
 
-        .bold {
-            color: #00ffff;
-            font-weight: 700;
-            text-shadow: 0 0 10px #00ffff;
-        }
+        ul { list-style: none; padding-left: 20px; }
+        ul li { position: relative; margin-bottom: 10px; padding-left: 25px; }
+        ul li::before { content: '▶'; position: absolute; left: 0; color: #00ffff; text-shadow: 0 0 10px #00ffff; animation: blink 1.5s ease-in-out infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        .subsection {
-            margin: 20px 0;
-            padding-left: 20px;
-        }
-
-        .subsection-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #00ffff;
-            text-shadow: 0 0 10px #00ffff;
-            margin-bottom: 10px;
-        }
-
-        ol {
-            list-style: none;
-            counter-reset: section-counter;
-            padding-left: 0;
-        }
-
-        ol li {
-            counter-increment: section-counter;
-            position: relative;
-            margin-bottom: 15px;
-            padding-left: 35px;
-        }
-
-        ol li::before {
-            content: counter(section-counter) ".";
-            position: absolute;
-            left: 0;
-            color: #ff00ff;
-            font-weight: bold;
-            text-shadow: 0 0 10px #ff00ff;
-            font-size: 1.1rem;
-        }
-
-        ul {
-            list-style: none;
-            padding-left: 20px;
-        }
-
-        ul li {
-            position: relative;
-            margin-bottom: 10px;
-            padding-left: 25px;
-        }
-
-        ul li::before {
-            content: '▶';
-            position: absolute;
-            left: 0;
-            color: #00ffff;
-            text-shadow: 0 0 10px #00ffff;
-            animation: blink 1.5s ease-in-out infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        .date-update {
-            background: rgba(255, 0, 255, 0.1);
-            border: 1px solid #ff00ff;
-            border-radius: 5px;
-            padding: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #ff00ff;
-            font-weight: 600;
-            text-shadow: 0 0 10px #ff00ff;
-        }
-
-        .contact-info {
-            background: rgba(0, 255, 255, 0.1);
-            border: 1px solid #00ffff;
-            border-radius: 5px;
-            padding: 15px;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .warning {
-            background: rgba(255, 107, 107, 0.1);
-            border: 1px solid #ff6b6b;
-            border-radius: 5px;
-            padding: 15px;
-            margin: 20px 0;
-            border-left: 4px solid #ff6b6b;
-        }
+        .date-update { background: rgba(255, 0, 255, 0.1); border: 1px solid #ff00ff; border-radius: 5px; padding: 10px; margin-bottom: 20px; text-align: center; color: #ff00ff; font-weight: 600; text-shadow: 0 0 10px #ff00ff; }
+        .contact-info { background: rgba(0, 255, 255, 0.1); border: 1px solid #00ffff; border-radius: 5px; padding: 15px; margin-top: 20px; text-align: center; }
+        .warning { background: rgba(255, 107, 107, 0.1); border: 1px solid #ff6b6b; border-radius: 5px; padding: 15px; margin: 20px 0; border-left: 4px solid #ff6b6b; }
 
         @media (max-width: 768px) {
-            .logo {
-                font-size: 2.5rem;
-            }
-            
-            .title {
-                font-size: 2rem;
-            }
-            
-            .content {
-                padding: 20px;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
-            }
+            .logo { font-size: 2.5rem; }
+            .title { font-size: 2rem; }
+            .content { padding: 20px; }
+            .section-title { font-size: 1.5rem; }
         }
 
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(45deg, #ff00ff, #00ffff);
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(45deg, #00ffff, #ff00ff);
-        }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(45deg, #ff00ff, #00ffff); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(45deg, #00ffff, #ff00ff); }
     </style>
 </head>
 <body>
+    <canvas id="liquid-canvas"></canvas>
+
     <div class="container">
         <header class="header">
             <div class="logo">ME</div>
@@ -342,13 +198,13 @@
 
         <div class="content">
             <div class="date-update">
-                <strong>Дата последнего обновления:</strong> 19.07.2025
+                <strong>Дата последнего обновления:</strong> 18.01.2026
             </div>
 
             <div class="section">
                 <h2 class="section-title">1. Введение</h2>
                 <div class="section-content">
-                    Компания <span class="company-name">ME</span> разрабатывает удобные мобильные приложения с уникальным дизайном. Наши приложения охватывают широкий спектр функционала, от системных утилит до уникальных проектов. В будущем планируется интеграция и взаимосвязь между всеми приложениями компании <span class="company-name">ME</span>.
+                    Компания <span class="company-name">ME</span> разрабатывает удобные мобильные приложения с уникальным дизайном. Наши приложения охватывают широкий спектр функционала, от системных утилит до уникальных проектов.
                 </div>
                 <div class="section-content">
                     Мы уважаем вашу конфиденциальность и обязуемся защищать ваши личные данные. В этой Политике конфиденциальности объясняется, как мы обрабатываем информацию, когда вы используете наши приложения.
@@ -361,7 +217,7 @@
                 <div class="subsection">
                     <h3 class="subsection-title">1. Личные данные</h3>
                     <div class="section-content">
-                        Мы по-прежнему <span class="important">не собираем</span> напрямую ФИО, адреса электронной почты или телефонные номера пользователей.
+                        Мы <span class="important">не собираем</span> напрямую ФИО, адреса электронной почты или телефонные номера пользователей.
                     </div>
                 </div>
 
@@ -420,7 +276,7 @@
             <div class="section">
                 <h2 class="section-title">7. Контакты</h2>
                 <div class="section-content">
-                    Если у вас есть вопросы или пожелания по поводу политики конфиденциальности, пожалуйста, свяжитесь с нами по адресу:
+                    Если у вас есть вопросы или пожелания, пожалуйста, свяжитесь с нами по адресу:
                 </div>
                 <div class="contact-info">
                     <strong>medigital.studios.official@gmail.com</strong>
@@ -430,37 +286,150 @@
     </div>
 
     <script>
-        function createParticles() {
-            const colors = ['#ff00ff', '#00ffff', '#ff6b6b'];
-            for (let i = 0; i < 20; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
-                particle.style.boxShadow = `0 0 10px ${particle.style.backgroundColor}`;
-                document.body.appendChild(particle);
+        const canvas = document.getElementById('liquid-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let particles = [];
+        let mouse = { x: -1000, y: -1000, radius: 100 };
+        let animationId;
+        
+        const spacing = 30; 
+        const connectionDistance = 50; 
+        
+        function initParticles() {
+            particles = [];
+            const rows = Math.ceil(canvas.height / spacing);
+            const cols = Math.ceil(canvas.width / spacing);
+
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    particles.push({
+                        x: j * spacing,
+                        y: i * spacing,
+                        baseX: j * spacing,
+                        baseY: i * spacing,
+                        vx: 0,
+                        vy: 0,
+                        opacity: 0.5
+                    });
+                }
             }
         }
-        createParticles();
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                const dx = mouse.x - p.x;
+                const dy = mouse.y - p.y;
+                const distSq = dx * dx + dy * dy;
+                const radSq = mouse.radius * mouse.radius;
+
+                if (distSq < radSq) {
+                    const distance = Math.sqrt(distSq);
+                    const force = (mouse.radius - distance) / mouse.radius;
+                    const angle = Math.atan2(dy, dx);
+                    
+                    p.vx -= Math.cos(angle) * force * 5;
+                    p.vy -= Math.sin(angle) * force * 5;
+                    p.opacity = Math.min(1, 0.6 + force * 0.4);
+                }
+
+                p.vx += (p.baseX - p.x) * 0.05;
+                p.vy += (p.baseY - p.y) * 0.05;
+                p.vx *= 0.9;
+                p.vy *= 0.9;
+                p.x += p.vx;
+                p.y += p.vy;
+                p.opacity += (0.3 - p.opacity) * 0.05;
+
+                ctx.fillStyle = `rgba(0, 255, 255, ${p.opacity})`;
+                if (p.opacity > 0.35) { 
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            const cols = Math.ceil(canvas.width / spacing);
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                if (p.opacity < 0.35) continue;
+                const opacityMultipler = 0.4;
+                
+                if ((i + 1) % cols !== 0 && (i + 1) < particles.length) {
+                    const right = particles[i + 1];
+                    const dx = p.x - right.x;
+                    const dy = p.y - right.y;
+                    if (dx * dx + dy * dy < connectionDistance * connectionDistance) {
+                        ctx.strokeStyle = `rgba(0, 255, 255, ${Math.min(p.opacity, right.opacity) * opacityMultipler})`;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(right.x, right.y);
+                        ctx.stroke();
+                    }
+                }
+                
+                if (i + cols < particles.length) {
+                    const bottom = particles[i + cols];
+                    const dx = p.x - bottom.x;
+                    const dy = p.y - bottom.y;
+                    if (dx * dx + dy * dy < connectionDistance * connectionDistance) {
+                        ctx.strokeStyle = `rgba(0, 255, 255, ${Math.min(p.opacity, bottom.opacity) * opacityMultipler})`;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(bottom.x, bottom.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            animationId = requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        window.addEventListener('touchmove', (e) => {
+            if(e.touches.length > 0) {
+                mouse.x = e.touches[0].clientX;
+                mouse.y = e.touches[0].clientY;
+            }
+        });
+        window.addEventListener('mouseout', () => { mouse.x = -1000; mouse.y = -1000; });
+        window.addEventListener('touchend', () => { mouse.x = -1000; mouse.y = -1000; });
+
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const rate = scrolled * -0.5;
             document.querySelector('.logo').style.transform = `translateY(${rate}px)`;
         });
+
         const title = document.querySelector('.title');
         const originalText = title.textContent;
         title.textContent = '';
-        let i = 0;
+        let charIndex = 0;
         const typeWriter = setInterval(() => {
-            title.textContent += originalText.charAt(i);
-            i++;
-            if (i >= originalText.length) {
+            title.textContent += originalText.charAt(charIndex);
+            charIndex++;
+            if (charIndex >= originalText.length) {
                 clearInterval(typeWriter);
             }
         }, 100);
+
+        resizeCanvas();
+        animate();
     </script>
 </body>
 </html>
