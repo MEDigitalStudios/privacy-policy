@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ME — Bug Report</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:       #080e0b;
+      --surface:  #0d1410;
+      --surface2: #111a14;
+      --border:   rgba(52,211,132,0.1);
+      --border2:  rgba(52,211,132,0.2);
+      --text:     #dff0e8;
+      --muted:    #5a8a6e;
+      --accent:   #34d384;
+      --accent2:  #1fba6a;
+      --accent3:  #a8ffcd;
+      --glow:     rgba(52,211,132,0.18);
+      --glow2:    rgba(52,211,132,0.08);
+      --radius:   15px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Ambient glow blobs */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -180px; right: -100px;
+      width: 560px; height: 560px;
+      background: radial-gradient(circle, rgba(52,211,132,0.09) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+      animation: drift1 14s ease-in-out infinite alternate;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -120px; left: -80px;
+      width: 440px; height: 440px;
+      background: radial-gradient(circle, rgba(52,211,132,0.06) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+      animation: drift2 18s ease-in-out infinite alternate;
+    }
+    @keyframes drift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(-40px, 50px) scale(1.08); } }
+    @keyframes drift2 { from { transform: translate(0,0) scale(1); } to { transform: translate(50px, -30px) scale(1.06); } }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 56px 20px 80px;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 44px;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .team-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(52,211,132,0.07);
+      border: 1px solid rgba(52,211,132,0.25);
+      border-radius: 40px;
+      padding: 6px 16px;
+      margin-bottom: 22px;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+    }
+    .team-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent);
+      animation: pulse 2.2s ease infinite;
+      flex-shrink: 0;
+    }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+    h1 {
+      font-family: 'Nunito', sans-serif;
+      font-size: clamp(34px, 7.5vw, 52px);
+      font-weight: 800;
+      line-height: 1.08;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    h1 em {
+      font-style: normal;
+      color: var(--accent);
+      text-shadow: 0 0 30px rgba(52,211,132,0.5), 0 0 60px rgba(52,211,132,0.2);
+    }
+
+    .subtitle {
+      margin-top: 13px;
+      color: var(--muted);
+      font-size: 14.5px;
+      line-height: 1.65;
+    }
+
+    /* Card */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 36px 32px;
+      animation: fadeUp 0.7s 0.12s ease both;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(52,211,132,0.04), inset 0 1px 0 rgba(52,211,132,0.08);
+    }
+    /* top glow line */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(52,211,132,0.5), transparent);
+      border-radius: 50%;
+    }
+    /* subtle inner glow corner */
+    .card::after {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(52,211,132,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Section label */
+    .section-label {
+      font-family: 'Nunito', sans-serif;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-shadow: 0 0 12px rgba(52,211,132,0.4);
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border2), transparent);
+    }
+
+    /* Form */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .form-group.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 11.5px;
+      font-weight: 700;
+      font-family: 'Nunito', sans-serif;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .opt {
+      font-size: 10px;
+      color: rgba(90,138,110,0.6);
+      font-weight: 400;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0;
+    }
+
+    input, textarea {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input::placeholder, textarea::placeholder { color: rgba(90,138,110,0.45); }
+    input:focus, textarea:focus {
+      border-color: rgba(52,211,132,0.45);
+      box-shadow: 0 0 0 3px rgba(52,211,132,0.1), 0 0 16px rgba(52,211,132,0.08);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 130px;
+      line-height: 1.65;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border2), transparent);
+      margin: 26px 0;
+    }
+
+    /* Submit */
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: var(--accent);
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #071209;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 0 20px rgba(52,211,132,0.35), 0 0 40px rgba(52,211,132,0.12);
+      position: relative;
+      letter-spacing: 0.01em;
+    }
+    .submit-btn:hover:not(:disabled) {
+      background: var(--accent3);
+      transform: translateY(-1px);
+      box-shadow: 0 0 28px rgba(52,211,132,0.55), 0 0 60px rgba(52,211,132,0.18);
+    }
+    .submit-btn:active:not(:disabled) { transform: translateY(0); }
+    .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+
+    /* Status */
+    .status {
+      display: none;
+      margin-top: 14px;
+      padding: 13px 16px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      line-height: 1.5;
+    }
+    .status.error {
+      display: block;
+      background: rgba(255,70,70,0.07);
+      border: 1px solid rgba(255,70,70,0.2);
+      color: #ff9090;
+    }
+    .status.loading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(52,211,132,0.05);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .spinner {
+      width: 17px; height: 17px;
+      border: 2px solid rgba(52,211,132,0.2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Success */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 48px 16px;
+    }
+    .success-screen.show { display: block; }
+
+    .success-icon {
+      width: 78px; height: 78px;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+      background: rgba(52,211,132,0.08);
+      border: 1px solid rgba(52,211,132,0.3);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 30px rgba(52,211,132,0.2), 0 0 60px rgba(52,211,132,0.08);
+      animation: popIn 0.45s cubic-bezier(.175,.885,.32,1.275) both;
+    }
+    @keyframes popIn { from { transform:scale(0.4); opacity:0; } to { transform:scale(1); opacity:1; } }
+    .success-icon svg { width: 34px; height: 34px; stroke: var(--accent); stroke-width: 2.5; fill: none;
+      filter: drop-shadow(0 0 8px rgba(52,211,132,0.6)); }
+
+    .success-screen h2 {
+      font-family: 'Nunito', sans-serif;
+      font-size: 26px; font-weight: 800;
+      color: #fff; margin-bottom: 10px;
+    }
+    .success-screen p { color: var(--muted); font-size: 14.5px; line-height: 1.65; }
+    .success-id {
+      display: inline-block;
+      margin-top: 20px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-family: monospace;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      text-shadow: 0 0 10px rgba(52,211,132,0.3);
+    }
+    .new-report-btn {
+      display: block;
+      margin: 20px auto 0;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 28px;
+      color: var(--muted);
+      font-family: 'Nunito', sans-serif;
+      font-size: 13.5px; font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+    .new-report-btn:hover {
+      border-color: rgba(52,211,132,0.4);
+      color: var(--accent);
+      box-shadow: 0 0 12px rgba(52,211,132,0.1);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 500px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full { grid-column: 1; }
+      .card { padding: 24px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="header">
+    <div class="team-badge">ME</div>
+    <h1>Сообщить<br/>об <em>ошибке</em></h1>
+    <p class="subtitle">Нашли баг? Опишите проблему — мы исправим её как можно скорее.</p>
+  </div>
+
+  <div class="card">
+    <form id="bugForm" novalidate>
+
+      <div class="section-label">О приложении</div>
+      <div class="form-grid">
+
+        <div class="form-group full">
+          <label>Название приложения</label>
+          <input type="text" id="appName" placeholder="ME Browser, ME AI..." />
+        </div>
+
+        <div class="form-group">
+          <label>Версия</label>
+          <input type="text" id="appVersion" placeholder="1.0.0" readonly />
+        </div>
+
+        <div class="form-group">
+          <label>Версия Android</label>
+          <input type="text" id="androidVersion" placeholder="13" />
+        </div>
+
+        <div class="form-group full">
+          <label>Модель устройства</label>
+          <input type="text" id="device" placeholder="Samsung Galaxy S21" />
+        </div>
+
+      </div>
+
+      <div class="divider"></div>
+      <div class="section-label">Описание</div>
+
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Что произошло?</label>
+          <textarea id="description" placeholder="Опишите ошибку: что делали, что пошло не так, как воспроизвести..."></textarea>
+        </div>
+
+        <div class="form-group full">
+          <label>Ссылка на скриншот <span class="opt">(опционально)</span></label>
+          <input type="url" id="screenshotUrl" placeholder="https://imgur.com/..." />
+        </div>
+
+        <div class="form-group full">
+          <label>Email <span class="opt">(опционально)</span></label>
+          <input type="email" id="email" placeholder="you@example.com" />
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">Отправить отчёт</button>
+
+      <div class="status loading" id="statusLoading">
+        <div class="spinner"></div>
+        <span>Отправляем отчёт...</span>
+      </div>
+      <div class="status error" id="statusError"></div>
+    </form>
+
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <h2>Отчёт отправлен!</h2>
+      <p>Спасибо! Мы уже видим вашу проблему<br/>и скоро займёмся ею.</p>
+      <div class="success-id" id="reportId"></div>
+      <button class="new-report-btn" id="newReportBtn">Отправить ещё один</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+  const firebaseConfig = {
+    apiKey:            "AIzaSyAf7EuDbtHkspRlOhp0UNtDO6bJ_ilNBCg",
+    authDomain:        "meapps-d079e.firebaseapp.com",
+    projectId:         "meapps-d079e",
+    storageBucket:     "meapps-d079e.firebasestorage.app",
+    messagingSenderId: "742887017000",
+    appId:             "1:742887017000:web:efda17dc6636283dd7431d"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
+
+  const params = new URLSearchParams(window.location.search);
+  const versionInput = document.getElementById('appVersion');
+  if (params.get('version')) versionInput.value = params.get('version');
+  if (params.get('device'))  document.getElementById('device').value = params.get('device');
+  if (params.get('android')) document.getElementById('androidVersion').value = params.get('android');
+  if (params.get('app'))     document.getElementById('appName').value = params.get('app');
+  if (!versionInput.value)   versionInput.removeAttribute('readonly');
+
+  const submitBtn     = document.getElementById('submitBtn');
+  const statusLoading = document.getElementById('statusLoading');
+  const statusError   = document.getElementById('statusError');
+  const bugForm       = document.getElementById('bugForm');
+  const successScreen = document.getElementById('successScreen');
+  const reportIdEl    = document.getElementById('reportId');
+  const newReportBtn  = document.getElementById('newReportBtn');
+
+  function setLoading(on) {
+    submitBtn.disabled = on;
+    statusLoading.style.display = on ? 'flex' : 'none';
+  }
+  function showError(msg) {
+    statusError.textContent = msg;
+    statusError.style.display = 'block';
+  }
+  function clearError() { statusError.style.display = 'none'; }
+
+  bugForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    clearError();
+    const description = document.getElementById('description').value.trim();
+    const appName     = document.getElementById('appName').value.trim();
+    if (!appName)     { showError('Укажите название приложения.'); return; }
+    if (!description) { showError('Пожалуйста, опишите ошибку.'); return; }
+
+    setLoading(true);
+    try {
+      const docRef = await addDoc(collection(db, 'bug_reports'), {
+        appName,
+        email:          document.getElementById('email').value.trim() || null,
+        appVersion:     document.getElementById('appVersion').value.trim() || null,
+        device:         document.getElementById('device').value.trim() || null,
+        androidVersion: document.getElementById('androidVersion').value.trim() || null,
+        screenshotUrl:  document.getElementById('screenshotUrl').value.trim() || null,
+        description,
+        userAgent:      navigator.userAgent,
+        createdAt:      serverTimestamp(),
+        status:         'new'
+      });
+      setLoading(false);
+      bugForm.style.display = 'none';
+      successScreen.classList.add('show');
+      reportIdEl.textContent = 'ID: ' + docRef.id;
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+      showError('Ошибка при отправке. Попробуйте ещё раз.\n' + err.message);
+    }
+  });
+
+  newReportBtn.addEventListener('click', () => {
+    bugForm.reset();
+    clearError();
+    bugForm.style.display = '';
+    successScreen.classList.remove('show');
+    if (params.get('version')) document.getElementById('appVersion').value = params.get('version');
+    if (params.get('device'))  document.getElementById('device').value = params.get('device');
+    if (params.get('android')) document.getElementById('androidVersion').value = params.get('android');
+    if (params.get('app'))     document.getElementById('appName').value = params.get('app');
+  });
+</script>
+</body>
+</html>
