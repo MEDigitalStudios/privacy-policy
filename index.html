@@ -7,15 +7,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg:       #080e0b;
-      --surface:  #0d1410;
-      --surface2: #111a14;
-      --border:   rgba(0,255,179,0.1);
-      --border2:  rgba(0,255,179,0.2);
+      --bg:       #060c09;
+      --surface:  #0b1410;
+      --surface2: #0f1a13;
+      --border:   rgba(0,255,179,0.12);
+      --border2:  rgba(0,255,179,0.22);
       --text:     #dff0e8;
-      --muted:    #5a8a6e;
+      --muted:    #4e8a6e;
       --accent:   #00ffb3;
-      --radius:   15px;
+      --accent2:  #00e69e;
+      --accent3:  #b3fff0;
+      --radius:   16px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,40 +31,62 @@
       overflow-x: hidden;
     }
 
-    body::before {
-      content: '';
+    /* Grid background */
+    .grid-bg {
       position: fixed;
-      top: -180px; right: -100px;
-      width: 560px; height: 560px;
-      background: radial-gradient(circle, rgba(0,255,179,0.09) 0%, transparent 65%);
-      pointer-events: none;
+      inset: 0;
       z-index: 0;
-      animation: drift1 14s ease-in-out infinite alternate;
-    }
-    body::after {
-      content: '';
-      position: fixed;
-      bottom: -120px; left: -80px;
-      width: 440px; height: 440px;
-      background: radial-gradient(circle, rgba(0,255,179,0.06) 0%, transparent 65%);
       pointer-events: none;
-      z-index: 0;
-      animation: drift2 18s ease-in-out infinite alternate;
+      background-image:
+        linear-gradient(rgba(0,255,179,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,179,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
     }
-    @keyframes drift1 { from{transform:translate(0,0) scale(1);} to{transform:translate(-40px,50px) scale(1.08);} }
-    @keyframes drift2 { from{transform:translate(0,0) scale(1);} to{transform:translate(50px,-30px) scale(1.06);} }
 
+    /* Ambient blobs */
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(80px);
+    }
+    .blob-1 {
+      width: 700px; height: 700px;
+      top: -200px; right: -150px;
+      background: radial-gradient(circle, rgba(0,255,179,0.12) 0%, transparent 65%);
+      animation: drift1 16s ease-in-out infinite alternate;
+    }
+    .blob-2 {
+      width: 500px; height: 500px;
+      bottom: -150px; left: -100px;
+      background: radial-gradient(circle, rgba(0,255,179,0.08) 0%, transparent 65%);
+      animation: drift2 20s ease-in-out infinite alternate;
+    }
+    .blob-3 {
+      width: 400px; height: 400px;
+      top: 40%; left: 30%;
+      background: radial-gradient(circle, rgba(0,255,179,0.05) 0%, transparent 65%);
+      animation: drift1 24s ease-in-out infinite alternate;
+    }
+    @keyframes drift1 { from{transform:translate(0,0);} to{transform:translate(-50px,60px);} }
+    @keyframes drift2 { from{transform:translate(0,0);} to{transform:translate(60px,-40px);} }
+
+    /* Layout */
     .wrapper {
       position: relative;
       z-index: 1;
-      max-width: 680px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 56px 20px 100px;
+      padding: 70px 40px 120px;
     }
 
-    .header {
-      margin-bottom: 44px;
-      animation: fadeUp 0.7s ease both;
+    /* Hero header */
+    .hero {
+      text-align: center;
+      margin-bottom: 80px;
+      animation: fadeUp 0.8s ease both;
     }
 
     .team-badge {
@@ -72,10 +96,10 @@
       background: rgba(0,255,179,0.07);
       border: 1px solid rgba(0,255,179,0.25);
       border-radius: 40px;
-      padding: 6px 16px;
-      margin-bottom: 22px;
+      padding: 7px 18px;
+      margin-bottom: 28px;
       font-size: 11px;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--accent);
       font-family: 'Nunito', sans-serif;
@@ -88,99 +112,128 @@
       background: var(--accent);
       box-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent);
       animation: pulse 2.2s ease infinite;
-      flex-shrink: 0;
     }
     @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 
-    h1 {
+    .hero h1 {
       font-family: 'Nunito', sans-serif;
-      font-size: clamp(32px, 7vw, 50px);
+      font-size: clamp(42px, 7vw, 80px);
       font-weight: 800;
-      line-height: 1.1;
+      line-height: 1.05;
       color: #fff;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
     }
-    h1 em {
+    .hero h1 em {
       font-style: normal;
       color: var(--accent);
-      text-shadow: 0 0 30px rgba(0,255,179,0.5), 0 0 60px rgba(0,255,179,0.2);
+      text-shadow:
+        0 0 40px rgba(0,255,179,0.6),
+        0 0 80px rgba(0,255,179,0.25),
+        0 0 120px rgba(0,255,179,0.1);
     }
 
-    .subtitle {
-      margin-top: 13px;
+    .hero-sub {
       color: var(--muted);
-      font-size: 14.5px;
+      font-size: 16px;
       line-height: 1.65;
+      max-width: 480px;
+      margin: 0 auto 32px;
     }
 
-    .card {
-      background: var(--surface);
+    .date-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,255,179,0.06);
       border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 36px 32px;
-      animation: fadeUp 0.7s 0.12s ease both;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+    .date-pill strong { color: var(--accent); font-weight: 600; }
+
+    /* Divider line */
+    .hero-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,255,179,0.3), transparent);
+      margin-top: 60px;
+    }
+
+    /* Sections grid */
+    .sections-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: rgba(0,255,179,0.06);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .section-card {
+      background: var(--surface);
+      padding: 36px 36px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 0 0 1px rgba(0,255,179,0.04), inset 0 1px 0 rgba(0,255,179,0.08);
+      transition: background 0.3s;
+      animation: fadeUp 0.7s ease both;
     }
-    .card::before {
+    .section-card:hover { background: var(--surface2); }
+
+    /* Top glow on hover */
+    .section-card::before {
       content: '';
       position: absolute;
-      top: 0; left: 10%; right: 10%;
+      top: 0; left: 0; right: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(0,255,179,0.5), transparent);
+      background: linear-gradient(90deg, transparent, rgba(0,255,179,0.4), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
     }
-    .card::after {
-      content: '';
+    .section-card:hover::before { opacity: 1; }
+
+    /* Corner number */
+    .section-card::after {
+      content: attr(data-num);
       position: absolute;
-      top: -60px; right: -60px;
-      width: 200px; height: 200px;
-      background: radial-gradient(circle, rgba(0,255,179,0.06) 0%, transparent 70%);
-      pointer-events: none;
+      top: 20px; right: 24px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      color: rgba(0,255,179,0.2);
+      letter-spacing: 0.1em;
     }
 
-    .section-label {
+    /* Full-width cards */
+    .section-card.full { grid-column: 1 / -1; }
+
+    .section-card-label {
       font-family: 'Nunito', sans-serif;
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 700;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-shadow: 0 0 12px rgba(0,255,179,0.4);
-    }
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, var(--border2), transparent);
+      margin-bottom: 14px;
+      opacity: 0.7;
     }
 
-    .section { margin-bottom: 32px; }
-    .section:last-child { margin-bottom: 0; }
-
-    .section-title {
+    .section-card h2 {
       font-family: 'Nunito', sans-serif;
-      font-size: 17px;
-      font-weight: 700;
+      font-size: 20px;
+      font-weight: 800;
       color: #fff;
-      margin-bottom: 10px;
-    }
-    .section-num {
-      color: var(--accent);
-      margin-right: 6px;
-      font-size: 13px;
-      font-weight: 600;
-      opacity: 0.8;
+      margin-bottom: 14px;
+      line-height: 1.2;
     }
 
     p {
       font-size: 14px;
       line-height: 1.75;
-      color: #9fbfb0;
+      color: #8ab0a0;
       margin-bottom: 10px;
     }
     p:last-child { margin-bottom: 0; }
@@ -191,15 +244,15 @@
     ul {
       list-style: none;
       padding: 0;
-      margin: 10px 0 0;
+      margin: 12px 0 0;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 9px;
     }
     ul li {
       font-size: 14px;
       line-height: 1.65;
-      color: #9fbfb0;
+      color: #8ab0a0;
       padding-left: 18px;
       position: relative;
     }
@@ -213,30 +266,33 @@
       opacity: 0.5;
     }
 
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border2), transparent);
-      margin: 28px 0;
-    }
-
-    .date-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(0,255,179,0.06);
+    /* Sensitive block */
+    .sensitive-block {
+      background: rgba(0,255,179,0.04);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 14px;
-      font-size: 12.5px;
-      color: var(--muted);
-      margin-bottom: 28px;
+      border-left: 3px solid rgba(0,255,179,0.7);
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 16px;
     }
-    .date-pill strong { color: var(--accent); font-weight: 600; }
+    .sensitive-block strong {
+      display: block;
+      color: #dff0e8;
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .sensitive-block ul { margin-top: 0; }
+    .sensitive-block ul li { font-size: 13.5px; }
+    .sensitive-block ul li b { color: #dff0e8; font-weight: 600; }
 
+    /* Warning */
     .warning-block {
       background: rgba(0,255,179,0.04);
       border: 1px solid var(--border);
-      border-left: 3px solid rgba(0,255,179,0.5);
+      border-left: 3px solid rgba(0,255,179,0.4);
       border-radius: 10px;
       padding: 14px 16px;
       margin-top: 12px;
@@ -246,70 +302,83 @@
     }
     .warning-block strong { color: #dff0e8; font-weight: 600; }
 
-    .sensitive-block {
-      background: rgba(0,255,179,0.04);
-      border: 1px solid var(--border);
-      border-left: 3px solid rgba(0,255,179,0.8);
-      border-radius: 10px;
-      padding: 16px;
-      margin-top: 14px;
-    }
-    .sensitive-block strong {
-      display: block;
-      color: #dff0e8;
-      font-weight: 600;
-      font-size: 13.5px;
-      margin-bottom: 10px;
-    }
-    .sensitive-block ul { margin-top: 0; }
-    .sensitive-block ul li { color: #9fbfb0; font-size: 13.5px; }
-    .sensitive-block ul li b { color: #dff0e8; font-weight: 600; }
-
-    .contact-box {
-      background: var(--surface2);
-      border: 1px solid var(--border2);
-      border-radius: 14px;
-      padding: 20px 24px;
-      text-align: center;
-      margin-top: 10px;
-    }
-    .contact-email {
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 600;
-      font-family: 'Nunito', sans-serif;
-      text-shadow: 0 0 16px rgba(0,255,179,0.35);
-      transition: opacity 0.2s;
-      display: block;
-    }
-    .contact-email:hover { opacity: 0.75; }
-    .contact-note {
-      font-size: 12px;
-      margin-top: 6px;
-      color: var(--muted);
-    }
-
+    /* Tag */
     .tag {
       display: inline-block;
       background: rgba(0,255,179,0.1);
-      border: 1px solid rgba(0,255,179,0.2);
+      border: 1px solid rgba(0,255,179,0.25);
       border-radius: 6px;
-      padding: 1px 8px;
+      padding: 1px 9px;
       font-size: 12.5px;
       color: var(--accent);
       font-weight: 600;
       vertical-align: middle;
     }
 
+    /* Contact card */
+    .contact-card {
+      grid-column: 1 / -1;
+      background: var(--surface);
+      padding: 48px 36px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+    .contact-card:hover { background: var(--surface2); }
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,255,179,0.4), transparent);
+    }
+    .contact-card h2 {
+      font-family: 'Nunito', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .contact-card p { color: var(--muted); margin-bottom: 24px; }
+    .contact-email {
+      display: inline-block;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 700;
+      font-family: 'Nunito', sans-serif;
+      text-shadow: 0 0 20px rgba(0,255,179,0.4), 0 0 40px rgba(0,255,179,0.15);
+      border-bottom: 1px solid rgba(0,255,179,0.25);
+      padding-bottom: 2px;
+      transition: text-shadow 0.3s, border-color 0.3s;
+    }
+    .contact-email:hover {
+      text-shadow: 0 0 30px rgba(0,255,179,0.7), 0 0 60px rgba(0,255,179,0.3);
+      border-color: rgba(0,255,179,0.6);
+    }
+
+    /* Stagger animation */
+    .section-card:nth-child(1) { animation-delay: 0.05s; }
+    .section-card:nth-child(2) { animation-delay: 0.1s; }
+    .section-card:nth-child(3) { animation-delay: 0.15s; }
+    .section-card:nth-child(4) { animation-delay: 0.2s; }
+    .section-card:nth-child(5) { animation-delay: 0.25s; }
+    .section-card:nth-child(6) { animation-delay: 0.3s; }
+    .section-card:nth-child(7) { animation-delay: 0.35s; }
+    .section-card:nth-child(8) { animation-delay: 0.4s; }
+
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    @media (max-width: 500px) {
-      .card { padding: 24px 18px; }
-      .wrapper { padding: 36px 16px 80px; }
+    @media (max-width: 768px) {
+      .sections-grid { grid-template-columns: 1fr; }
+      .section-card.full { grid-column: 1; }
+      .contact-card { grid-column: 1; }
+      .wrapper { padding: 48px 20px 80px; }
+      .hero h1 { font-size: clamp(36px, 10vw, 52px); }
     }
 
     ::-webkit-scrollbar { width: 8px; }
@@ -320,79 +389,76 @@
 </head>
 <body>
 
+<div class="grid-bg"></div>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
 <div class="wrapper">
 
-  <div class="header">
+  <!-- Hero -->
+  <div class="hero">
     <div class="team-badge">ME</div>
     <h1>Политика<br/><em>конфиденциальности</em></h1>
-    <p class="subtitle">Мы уважаем вашу приватность и открыто объясняем,<br/>как работаем с данными.</p>
+    <p class="hero-sub">Мы уважаем вашу приватность и открыто объясняем, как работаем с данными.</p>
+    <div class="date-pill">Последнее обновление: <strong>22.02.2026</strong></div>
+    <div class="hero-divider"></div>
   </div>
 
-  <div class="card">
-
-    <div class="date-pill">
-      Последнее обновление: <strong>22.02.2026</strong>
-    </div>
+  <!-- Grid -->
+  <div class="sections-grid">
 
     <!-- 01 -->
-    <div class="section-label">Компания</div>
-    <div class="section">
-      <h2 class="section-title"><span class="section-num">01</span>Введение</h2>
+    <div class="section-card" data-num="01">
+      <div class="section-card-label">Компания</div>
+      <h2>Введение</h2>
       <p><span class="white-text">ME</span> разрабатывает мобильные приложения — от системных утилит до уникальных проектов. Мы обязуемся защищать вашу конфиденциальность и в этом документе объясняем, как именно.</p>
     </div>
 
-    <div class="divider"></div>
-
     <!-- 02 -->
-    <div class="section-label">Данные</div>
-    <div class="section">
-      <h2 class="section-title"><span class="section-num">02</span>Что мы собираем</h2>
+    <div class="section-card" data-num="02">
+      <div class="section-card-label">Данные</div>
+      <h2>Что мы собираем</h2>
       <p>Мы <span class="accent-text">не собираем</span> ФИО, адреса электронной почты или телефонные номера пользователей напрямую.</p>
-      <p>Для повышения качества приложений мы используем <span class="white-text">Google Firebase Analytics</span> и <span class="white-text">Firebase Crashlytics</span>, которые собирают:</p>
+      <p>Для повышения качества используем <span class="white-text">Firebase Analytics</span> и <span class="white-text">Crashlytics</span>:</p>
       <ul>
-        <li>Анонимные данные об использовании функций — экранные просмотры и события</li>
-        <li>Информацию об ошибках и сбоях (краши) без персональных идентификаторов</li>
+        <li>Анонимные данные об использовании функций</li>
+        <li>Информацию об ошибках без персональных идентификаторов</li>
       </ul>
     </div>
 
-    <div class="divider"></div>
-
     <!-- 03 -->
-    <div class="section-label">Использование</div>
-    <div class="section">
-      <h2 class="section-title"><span class="section-num">03</span>Зачем нам эти данные</h2>
+    <div class="section-card" data-num="03">
+      <div class="section-card-label">Использование</div>
+      <h2>Зачем нам эти данные</h2>
       <p>Данные из Firebase используются исключительно для:</p>
       <ul>
-        <li>Анализа и оптимизации производительности приложения</li>
+        <li>Анализа и оптимизации производительности</li>
         <li>Выявления и устранения ошибок</li>
-        <li>Улучшения пользовательского опыта и выпуска новых функций</li>
+        <li>Улучшения пользовательского опыта</li>
       </ul>
       <p style="margin-top:12px;">Данные не передаются третьим лицам за пределами инфраструктуры Google Firebase.</p>
     </div>
 
-    <div class="divider"></div>
-
     <!-- 04 -->
-    <div class="section-label">Безопасность</div>
-    <div class="section">
-      <h2 class="section-title"><span class="section-num">04</span>Хранение и защита</h2>
+    <div class="section-card" data-num="04">
+      <div class="section-card-label">Безопасность</div>
+      <h2>Хранение и защита</h2>
       <ul>
-        <li>Все данные хранятся в зашифрованных базах Firebase на серверах Google</li>
-        <li>Доступ ограничен сотрудниками ME, ответственными за поддержку и разработку</li>
-        <li>Мы соблюдаем требования GDPR и других применимых норм защиты данных</li>
-        <li>Данные автоматически удаляются спустя <span class="tag">365 дней</span>, если иное не требуется для расследования критических ошибок</li>
+        <li>Зашифрованные базы Firebase на серверах Google</li>
+        <li>Доступ ограничен командой ME</li>
+        <li>Соблюдение требований GDPR</li>
+        <li>Авто-удаление данных спустя <span class="tag">365 дней</span></li>
       </ul>
     </div>
 
-    <div class="divider"></div>
-
-    <!-- 05 -->
-    <div class="section-label">Разрешения</div>
-    <div class="section">
-      <h2 class="section-title"><span class="section-num">05</span>Чувствительные разрешения</h2>
-      <p>Некоторые приложения ME запрашивают доступ к чувствительным системным разрешениям — <b style="color:#dff0e8;">Usage Stats</b> (статистика использования приложений) и <b style="color:#dff0e8;">Notification Listener</b> (доступ к уведомлениям). Эти разрешения необходимы исключительно для работы заявленного функционала приложения.</p>
+    <!-- 05 full -->
+    <div class="section-card full" data-num="05">
+      <div class="section-card-label">Разрешения</div>
+      <h2>Чувствительные разрешения</h2>
+      <p>Некоторые приложения ME запрашивают доступ к системным разрешениям — <b style="color:#dff0e8;">Usage Stats</b> (статистика использования) и <b style="color:#dff0e8;">Notification Listener</b> (доступ к уведомлениям). Эти разрешения необходимы исключительно для работы заявленного функционала.</p>
       <div class="sensitive-block">
-        <strong>Наши принципы в отношении этих разрешений:</strong>
+        <strong>Наши принципы</strong>
         <ul>
           <li>Разрешения запрашиваются <b>только тогда</b>, когда это необходимо для работы конкретной функции</li>
           <li>Никакие данные, полученные через эти разрешения, <b>не собираются</b> и не хранятся на наших серверах</li>
@@ -402,43 +468,33 @@
       </div>
     </div>
 
-    <div class="divider"></div>
-
     <!-- 06 -->
-    <div class="section-label">Сторонние сервисы</div>
-    <div class="section">
-      <h2 class="section-title"><span class="section-num">06</span>Внешние ссылки</h2>
+    <div class="section-card" data-num="06">
+      <div class="section-card-label">Сторонние сервисы</div>
+      <h2>Внешние ссылки</h2>
       <p>Приложения могут содержать ссылки на сторонние ресурсы. Мы не контролируем их политику конфиденциальности.</p>
       <div class="warning-block">
-        <strong>Обратите внимание</strong> — при переходе на сторонние ресурсы ознакомьтесь с их политикой конфиденциальности.
+        <strong>Обратите внимание</strong> — при переходе на сторонние ресурсы ознакомьтесь с их политикой.
       </div>
     </div>
 
-    <div class="divider"></div>
-
     <!-- 07 -->
-    <div class="section-label">Изменения</div>
-    <div class="section">
-      <h2 class="section-title"><span class="section-num">07</span>Обновления политики</h2>
+    <div class="section-card" data-num="07">
+      <div class="section-card-label">Изменения</div>
+      <h2>Обновления политики</h2>
       <p>Мы можем обновлять этот документ. Все изменения публикуются на этой странице с указанием актуальной даты.</p>
     </div>
 
-    <div class="divider"></div>
-
-    <!-- 08 -->
-    <div class="section-label">Связь</div>
-    <div class="section">
-      <h2 class="section-title"><span class="section-num">08</span>Контакты</h2>
-      <p>Есть вопросы? Напишите нам — ответим в ближайшее время.</p>
-      <div class="contact-box">
-        <a class="contact-email" href="mailto:medigital.studios.official@gmail.com">medigital.studios.official@gmail.com</a>
-        <p class="contact-note">Мы открыты к вопросам и предложениям</p>
-      </div>
+    <!-- 08 contact -->
+    <div class="section-card contact-card" data-num="08">
+      <div class="section-card-label" style="justify-content:center;">Связь</div>
+      <h2>Есть вопросы?</h2>
+      <p>Напишите нам — ответим в ближайшее время.</p>
+      <a class="contact-email" href="mailto:medigital.studios.official@gmail.com">medigital.studios.official@gmail.com</a>
     </div>
 
   </div>
 </div>
-
 
 </body>
 </html>
